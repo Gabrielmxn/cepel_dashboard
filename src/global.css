@@ -1,0 +1,17 @@
+html {
+  font-size: 0.845rem;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+ background: #1B2431;
+ color: white;
+ font-family: 'Roboto', sans-serif;
+ -webkit-font-smoothing: antialiased;
+}

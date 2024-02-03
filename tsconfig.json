@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "module": "CommonJS",
+    "target": "ES2020",
+    "allowJs": true,
+    "importHelpers": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "plugins": [
+      {
+          "transform": "typescript-plugin-styled-components",
+          "type": "config",
+
+          // other typescript-plugin-styled-components options can be added here
+          "minify": true,
+          "ssr": true
+      }
+  ]
+    },
+  "include": ["src"],
+  "files": ["src/index.tsx"],
+  
+}
