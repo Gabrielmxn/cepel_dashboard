@@ -1,4 +1,4 @@
 export interface Gerador {
-	id: number
-	barraId: number
+	id: string
+	barraId: string
 }

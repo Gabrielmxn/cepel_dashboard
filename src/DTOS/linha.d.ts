@@ -1,5 +1,5 @@
 export interface Linha {
-	id: number
-	barraDe: number
-	barraPara: number
+	id: string
+	barraDe: string
+	barraPara: string
 }

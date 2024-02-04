@@ -1,26 +1,32 @@
-import React, { useEffect } from "react";
-import { Barra } from '../../components/Barra'
-import { Gerador } from "../../components/Gerador";
-
-import './style.css'
-
+import React from "react";
+import { Header } from "../../components/Header";
+import { Button, Container } from "./style";
 
 
 
 export function Home(){
-
-
-  useEffect(() => {
-    
-  }, [])
   return(
-    <main className="container">
+    <>
+    <Header />
+    <Container>
+      <Button>
+  
+        <span>Barras</span>
+      </Button>
 
-        <Barra /> 
-        <Gerador />
-      
-      
-      
-   </main>
+      <Button>
+
+        <span>Geradores</span>
+      </Button>
+      <Button>
+  
+        <span>Transformadores</span>
+      </Button>
+      <Button>
+  
+        <span>Linhas</span>
+      </Button>
+    </Container>
+    </>
   )
 }

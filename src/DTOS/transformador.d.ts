@@ -1,6 +1,6 @@
 
 export interface Transformador{
-  id: number
-	barraDe: number
-	barraPara: number
+  id: string
+	barraDe: string
+	barraPara: string
 }

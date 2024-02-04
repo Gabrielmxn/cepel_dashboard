@@ -1,3 +1,3 @@
 export interface BarraDTOs {
-	id: number
+	id: string
 }
