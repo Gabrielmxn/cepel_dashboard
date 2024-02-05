@@ -1,10 +1,13 @@
 import React from "react"
-import { HeaderContainer } from './style'
+import { HeaderContainer, Heading } from './style'
+import { Link, Router } from "react-router-dom"
 
 export function Header(){
   return(
     <HeaderContainer >
-      <h2>CEPEL</h2>
+      <Heading to={'/'}>
+        <h2>CEPEL</h2>
+      </Heading>
     </HeaderContainer>
   )
 }

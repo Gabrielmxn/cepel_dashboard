@@ -3,9 +3,9 @@ import { api } from '../../utils/axios';
 
 
 export const fetchBarras = createAsyncThunk(
-  'start',
+  'start:barra',
   async () => {
-    const response = await api.get('barra')
+    const response = await api.get('/barra')
     return response.data
   }
 )
@@ -36,15 +36,22 @@ const barraSlice = createSlice({
     remove: (state, action) => {
       const response = state.barras.filter(resp => resp.id !== action.payload.id)
       state.barras = response
+    },
+    edit: (state, action) => {
+      const index = state.barras.findIndex(resp => resp.id === action.payload.id)
+      console.log(action.payload.newId)
+      state.barras[index].id = action.payload.newId
     }
   },
   extraReducers: (thunk) => {
     thunk.addCase(fetchBarras.fulfilled,  (state, action) => {
-      // Add user to the state array
-      state.barras.push(...action.payload)
+      // Add user to the state arra
+      console.log('que isso', action.payload)
+      state.barras = action.payload
+      
     })
   }
 })
 
 export const barra = barraSlice.reducer
-export const { add, remove } = barraSlice.actions
+export const { add, remove, edit } = barraSlice.actions

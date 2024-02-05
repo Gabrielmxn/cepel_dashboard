@@ -1,12 +1,13 @@
-import React, { ReactElement, ReactNode } from "react";
+import React, {  } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
-  RouterProviderProps,
 } from "react-router-dom";
-import { Dashboard } from "./page/Dashboard";
+import { DashboardPage } from "./page/Dashboard";
 import { Home } from "./page/Home";
 import { Barras } from "./page/Barras";
+import { GeradorPage } from "./page/Geradores";
+import { TransformadorPage } from "./page/Transformadores";
 
 const router = createBrowserRouter([
   {
@@ -15,11 +16,19 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: <DashboardPage />,
   },
   {
     path: "/barras",
     element: <Barras />,
+  },
+  {
+    path: "/geradores",
+    element: <GeradorPage />,
+  },
+  {
+    path: "/transformadores",
+    element: <TransformadorPage />,
   }
 ]);
 

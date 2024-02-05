@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.main`
   width: 100%;
+  padding: 0.5rem;
 `
 
 export const HeaderBarra = styled.header`
@@ -25,10 +26,10 @@ export const ButtonAction = styled.button`
 
 ` 
 interface FormContainerProps {
-  active: boolean
+  actives: string
 }
 export const FormContainer = styled.section<FormContainerProps>`
-${props => !props.active ? {
+${props => props.actives === 'false' ? {
     display: 'none'
   } : {
     display: 'flex',
@@ -89,3 +90,20 @@ export const ButtonSend = styled.button`
  
   margin: 2rem auto;
 ` 
+
+export const Table = styled.table`
+  border-collapse: collapse;
+  border-spacing: 0;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+
+
+  th, td {
+  text-align: left;
+  padding: 8px;
+  }
+
+
+
+`

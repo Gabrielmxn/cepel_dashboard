@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
-import { Barra } from '../../components/Barra'
-import { Gerador } from "../../components/Gerador";
 
 import './style.css'
 import { Header } from "../../components/Header";
+import { Dashboard } from "../../components/Dashboard";
 
 
 
 
-export function Dashboard(){
+export function DashboardPage(){
 
 
   useEffect(() => {
@@ -19,8 +18,7 @@ export function Dashboard(){
     <Header />
     <main className="container">
 
-        <Barra /> 
-        <Gerador />
+       <Dashboard />
       
       
       

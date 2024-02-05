@@ -1,26 +1,23 @@
 import React, { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from "react";
 import { BarraDTOs } from "../../DTOS/barra";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { add, fetchBarras, remove } from "../../store/slices/barra";
+import { add, edit, fetchBarras, remove } from "../../store/slices/barra";
 import { api } from "../../utils/axios";
 import { FaEdit, FaNewspaper } from "react-icons/fa";
 
-import { ButtonAction, ButtonSend, Container, Form, FormContainer, HeaderBarra, X } from "./style";
+import { ButtonAction, ButtonSend, Container, Form, FormContainer, HeaderBarra, Table, X } from "./style";
 import { IoMdTrash } from "react-icons/io";
+import { ButtonHeader, HeaderContainer, Info } from "../StyledComponents/style";
 
 
 
 
 export function Barra(){
   const [active, setActive] = useState(false)
-  const [actionMethod, setActionMethod] = useState<'EDIT' | 'ADD'>('ADD')
+  const [actionMethod, setActionMethod] = useState<'ADD'>('ADD')
   const [valueBarra, setValueBarra] = useState('')
-  const [indexw, setIndex] = useState('')
+  const [inputAntigo, setInputAntigo] = useState('')
   const Action = {
-    EDIT:{
-      title: 'Editar número da barra',
-      function: (event: FormEvent) => editBarra(event) 
-    },
     ADD:{
       title: 'Adicionar barra',
       function: (event: FormEvent) => addBarra(event) 
@@ -34,10 +31,7 @@ export function Barra(){
   const dispatch = useAppDispatch()
  
 
-  async function editBarra(event: FormEvent){
-    const response = await api.put<BarraDTOs>(`http://localhost:3001/barra/${valueBarra}`)
-    dispatch(edit({ valueBarra}))
-  }
+  
   async function removeBarra(id: string){
     const response = await api.delete<BarraDTOs>(`http://localhost:3001/barra/${id}`)
     dispatch(remove({ id}))
@@ -59,18 +53,14 @@ export function Barra(){
     dispatch(add(
       data
     ))
-
+    setActive(false)
     setValueBarra('')
     
   }
   console.log(store)
-  function handleAction(action: 'EDIT' | 'ADD', id?: string, indexx?: string){
+  function handleAction(action:'ADD', id?: string, indexx?: string){
     setActive(!active)
     setActionMethod(action)
-    if(action === 'EDIT'){
-      setValueBarra(id)
-      setIndex(indexx)
-    }
   }
   useEffect(() => {
     dispatch(fetchBarras())
@@ -88,26 +78,27 @@ export function Barra(){
   return(
     <Container>
    
-      <HeaderBarra>
+      <HeaderContainer>
         <div>
           <h3>Barra</h3>
           <p>As barras, também conhecidas como nós, são pontos de conexão onde se podem conectar geradores, transformadores, linhas e cargas, funcionando como eixos centrais na rede de distribuição</p>
         </div>
-        <button onClick={() => handleAction('ADD')}><FaNewspaper /> Nova barra</button>
-      </HeaderBarra>
+        <ButtonHeader onClick={() => handleAction('ADD')}>Adicionar</ButtonHeader>
+      </HeaderContainer>
     {
-      store && <table>
+      store.length > 0 ? <Table>
       <thead>
-        <th>Código</th>
+        <tr>
+          <th>Código</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody>
         {store.map((response, index) => 
           <tr key={response.id}>
             <td>{response.id}</td>
             <td><div>
-            <ButtonAction color="green" onClick={() =>  handleAction('EDIT',response.id, String(index))}>
-              <FaEdit size={24} />
-            </ButtonAction>
+            
             <ButtonAction  color="red" onClick={() =>  removeBarra(response.id)}>
               <IoMdTrash size={24} />
               </ButtonAction>      
@@ -115,15 +106,16 @@ export function Barra(){
           </tr>
         )}
       </tbody>
-    </table>
+    </Table>
+    : <Info>Nenhuma barra cadastrada.</Info>
     }
-    <FormContainer active={active}>
+    <FormContainer actives={active.toString()}>
     <Form onSubmit={Action[actionMethod].function}>
         <button type="button" onClick={() =>  setActive(!active)}>
           <X  />
         </button>
         <h2>{Action[actionMethod].title}</h2>
-        <input type="text" value={valueBarra} placeholder="Digite o número da barra" onChange={handleBarra}/>
+        <input type="text" value={valueBarra}  placeholder="Digite o número da barra" onChange={handleBarra}/>
         <ButtonSend>Adicionar</ButtonSend>
       </Form>
     </FormContainer>

@@ -1,4 +1,4 @@
-export interface Gerador {
+export interface GeradorDTOs {
 	id: string
 	barraId: string
 }

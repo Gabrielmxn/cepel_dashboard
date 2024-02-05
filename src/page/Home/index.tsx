@@ -9,23 +9,27 @@ export function Home(){
     <>
     <Header />
     <Container>
-      <Button>
+      <Button to="/barras" area="barra">
   
         <span>Barras</span>
       </Button>
 
-      <Button>
+      <Button to="/geradores" area="gerador">
 
         <span>Geradores</span>
       </Button>
-      <Button>
+      <Button to="/transformadores" area="transformador">
   
         <span>Transformadores</span>
       </Button>
-      <Button>
+      <Button to="/linhas" area="linha">
   
         <span>Linhas</span>
       </Button>
+      <Button to="/dashboard" area="dashboard">
+  
+  Dashboard
+</Button>
     </Container>
     </>
   )

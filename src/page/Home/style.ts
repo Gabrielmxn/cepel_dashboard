@@ -1,7 +1,19 @@
-import styled from "styled-components";
+import React from "react";
+import { Link } from "react-router-dom";
+import styled, { WebTarget } from "styled-components";
 
 export const Container = styled.main`
-  display: flex;
+  display: grid;
+  max-width: 800px;
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0 auto;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: 
+  "barra gerador"
+  "transformador linha"
+  "dashboard dashboard"
+  ;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
@@ -9,10 +21,13 @@ export const Container = styled.main`
   margin-top: 2rem;
 
 `
-
-export const Button = styled.button`
+interface ButtonProps{
+  area: string
+}
+export const Button = styled(Link)<ButtonProps>`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1rem;
   padding: 1.5rem;
   font-size: 1.5rem;
@@ -21,4 +36,6 @@ export const Button = styled.button`
   border-radius: 4px;
   color: white;
   cursor: pointer;
+  text-decoration: none;
+  grid-area: ${props => props.area};
 ` 
