@@ -8,6 +8,7 @@ import { Home } from "./page/Home";
 import { Barras } from "./page/Barras";
 import { GeradorPage } from "./page/Geradores";
 import { TransformadorPage } from "./page/Transformadores";
+import { LinhaPage } from "./page/Linhas";
 
 const router = createBrowserRouter([
   {
@@ -29,7 +30,12 @@ const router = createBrowserRouter([
   {
     path: "/transformadores",
     element: <TransformadorPage />,
-  }
+  },
+  {
+    path: "/linhas",
+    element: <LinhaPage />,
+  },
+  
 ]);
 
 export function RouterProviders(){

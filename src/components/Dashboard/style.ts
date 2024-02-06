@@ -10,6 +10,10 @@ export const Container = styled.div`
   align-items: center;
   gap: 1rem;
   margin: 0 auto;
+
+  @media (max-width: 768px){
+    grid-template-columns: 1fr;
+  }
 `
 
 export const Card = styled.div`

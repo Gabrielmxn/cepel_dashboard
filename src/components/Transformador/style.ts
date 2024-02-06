@@ -12,7 +12,7 @@ export const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  margin-top: 2rem;
 
   h3{
     font-size: 1.5rem;

@@ -1,18 +1,13 @@
 {
   "barra": [
     {
-      "id": "54"
+      "id": "856"
     },
     {
-      "id": "89"
+      "id": "42"
     }
   ],
   "linha": [],
-  "gerador": [
-    {
-      "id": "4545",
-      "barraId": "54"
-    }
-  ],
+  "gerador": [],
   "transformador": []
 }

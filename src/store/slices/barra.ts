@@ -26,11 +26,7 @@ const barraSlice = createSlice({
   name: 'Barra',
   initialState,
   reducers: {
-    start: (state, action) => {
-      console.log('o que e', action.payload)
-    },
     add: (state, action) => {
-      console.log(state, action)
       state.barras.push(action.payload)
     },
     remove: (state, action) => {
@@ -39,14 +35,11 @@ const barraSlice = createSlice({
     },
     edit: (state, action) => {
       const index = state.barras.findIndex(resp => resp.id === action.payload.id)
-      console.log(action.payload.newId)
       state.barras[index].id = action.payload.newId
     }
   },
   extraReducers: (thunk) => {
     thunk.addCase(fetchBarras.fulfilled,  (state, action) => {
-      // Add user to the state arra
-      console.log('que isso', action.payload)
       state.barras = action.payload
       
     })

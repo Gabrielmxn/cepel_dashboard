@@ -1,12 +1,12 @@
 import { GeradorDTOs } from "../DTOS/gerador"
-import { Linha } from "../DTOS/linha"
+import {  LinhasDTOs } from "../DTOS/linha"
 import { TransformadorDTOS } from "../DTOS/transformador"
 
 interface VerifyBarra{
   idBarra: string
   geradors: GeradorDTOs[]
   transformador: TransformadorDTOS[]
-  linha: Linha[]
+  linha: LinhasDTOs[]
 }
 
 

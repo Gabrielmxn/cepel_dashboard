@@ -1,10 +1,6 @@
 import { IoMdClose } from "react-icons/io";
 import styled from "styled-components";
 
-export const Container = styled.main`
-  width: 100%;
-  padding: 0.5rem;
-`
 
 export const HeaderBarra = styled.header`
   display: flex;
@@ -91,19 +87,3 @@ export const ButtonSend = styled.button`
   margin: 2rem auto;
 ` 
 
-export const Table = styled.table`
-  border-collapse: collapse;
-  border-spacing: 0;
-  max-width: 400px;
-  width: 100%;
-  margin: 0 auto;
-
-
-  th, td {
-  text-align: left;
-  padding: 8px;
-  }
-
-
-
-`

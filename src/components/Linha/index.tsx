@@ -1,18 +1,20 @@
 import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { ButtonAction, Form, FormContainer, Info, Send, X } from "../StyledComponents/style";
+import { ButtonAction, ButtonHeader, ContainerDiv, Form, FormContainer, HeaderContainer, Info, Send, Table, X } from "../StyledComponents/style";
 import { useAppDispatch, useAppSelector } from "../../store";
 import { api } from "../../utils/axios";
 import { TransformadorDTOS } from "../../DTOS/transformador";
 import { verifyBarra } from "../../utils/verifyBarra";
-import { add, edit, fetchTransformador, remove } from "../../store/slices/transformador";
 import { FaEdit } from "react-icons/fa";
 import { IoMdTrash } from "react-icons/io";
 import { fetchBarras } from "../../store/slices/barra";
-import { ButtonHeader, Container, HeaderContainer } from "./style";
 import { Popup } from "../popup";
+import { Container } from "../Transformador/style";
+import { LinhasDTOs } from "../../DTOS/linha";
+import { add, edit, fetchLinhas, remove } from "../../store/slices/linha";
+import { fetchTransformador } from "../../store/slices/transformador";
 
 
-export function Transformador() {
+export function Linha() {
   const [barraDe, setBarraDe] = useState('')
   const [barraPara, setBarraPara] = useState('')
   const [actionMethod, setActionMethod] = useState<'EDIT' | 'ADD'>('ADD')
@@ -39,19 +41,20 @@ export function Transformador() {
 
   const Action = {
     EDIT: {
-      title: 'Editar número da barra',
-      function: (event: FormEvent) => editGerador(event)
+      title: 'Editar linha',
+      function: (event: FormEvent) => editLinhas(event)
     },
     ADD: {
-      title: 'Adicionar transformador',
-      function: (event: FormEvent) => addTransformador(event)
+      title: 'Adicionar linha',
+      function: (event: FormEvent) => addLinhas(event)
     }
   }
 
 
 
-  async function editGerador(event: FormEvent) {
+  async function editLinhas(event: FormEvent) {
     event.preventDefault()
+
     const verifyDe = await verifyBarra({
       idBarra: barraDe,
       geradors,
@@ -67,10 +70,14 @@ export function Transformador() {
     })
 
     if (verifyDe.isVerifyBarra && verifyPara.isVerifyBarra) {
-      const storeB = transformador.find(resp => resp.id === valueIdTransformador)
+      const storeB = linha.find(resp => resp.id === valueIdTransformador)
+      if (barraDe === barraPara) {
+        handleActivePopup('Tem que ser barra diferente')
+        return
+      }
 
       if (storeB) {
-        await api.patch<TransformadorDTOS>(`http://localhost:3001/transformador/${valueIdTransformador}`, {
+        await api.patch<LinhasDTOs>(`http://localhost:3001/linha/${valueIdTransformador}`, {
           barraDe,
           barraPara
         })
@@ -81,6 +88,7 @@ export function Transformador() {
         }))
 
         setValueIdTransformador('')
+
         setBarraPara('')
         setBarraDe('')
         close()
@@ -89,6 +97,7 @@ export function Transformador() {
 
     }
     if (!verifyDe.isVerifyBarra) {
+
       handleActivePopup(`Não foi possível adicionar a barra ${barraDe}`)
     } else if (!verifyPara.isVerifyBarra) {
       handleActivePopup(`Não foi possível adicionar a barra ${barraPara}`)
@@ -96,15 +105,13 @@ export function Transformador() {
       handleActivePopup('DIGITE O VALOR DA LISTA OU SELECIONA')
     }
 
-    close()
-
   }
   async function removerTransformador(id: string) {
     try {
-      await api.delete<TransformadorDTOS>(`http://localhost:3001/transformador/${id}`)
+      await api.delete<TransformadorDTOS>(`http://localhost:3001/linha/${id}`)
       dispatch(remove({ id }))
     } catch (err) {
-      handleActivePopup(err.message)
+      console.log(err)
     }
   }
 
@@ -118,7 +125,7 @@ export function Transformador() {
       setActivePopupRender(false)
     }, 10000)
   }
-  async function addTransformador(event: FormEvent<Element>) {
+  async function addLinhas(event: FormEvent<Element>) {
     event.preventDefault()
     if (valueIdTransformador.length === 0) {
       handleActivePopup('Digite um código')
@@ -134,7 +141,7 @@ export function Transformador() {
     const verifyPara = await verifyBarra({
       idBarra: barraPara,
       geradors,
-      linha,
+      linha: linha,
       transformador
     })
 
@@ -143,7 +150,7 @@ export function Transformador() {
     if (verifyDe.isVerifyBarra && verifyPara.isVerifyBarra) {
 
 
-      const isVerify = transformador.some(resp => resp.id === valueIdTransformador)
+      const isVerify = linha.some(resp => resp.id === valueIdTransformador)
 
       if (isVerify) {
         handleActivePopup('CÓGIGO DE GERADOR JÁ EXISTE')
@@ -159,7 +166,7 @@ export function Transformador() {
       const storeBarraPara = storeBarra.find(resp => resp.id === barraPara)
       if (storeBarraDe && storeBarraPara) {
         try {
-          const response = await api.post('http://localhost:3001/transformador', {
+          const response = await api.post('http://localhost:3001/linha', {
             id: valueIdTransformador,
             barraDe,
             barraPara
@@ -174,14 +181,12 @@ export function Transformador() {
           ))
 
         } catch (error) {
-          handleActivePopup(error.message)
+          console.log(error)
         }
         return
       }
       handleActivePopup('DIGITE O VALOR DA LISTA OU SELECIONA')
-
     }
-    close()
     setValueIdTransformador('')
 
     setBarraPara('')
@@ -210,6 +215,7 @@ export function Transformador() {
     setActive(!active)
     setActionMethod(action)
     if (action === 'EDIT') {
+      console.log(barraDe, barraPara)
       setBarraDe(barraDe)
       setBarraPara(barraPara)
       setValueIdTransformador(id)
@@ -223,23 +229,24 @@ export function Transformador() {
   }
 
   useEffect(() => {
+    dispatch(fetchLinhas())
     dispatch(fetchTransformador())
     dispatch(fetchBarras())
+
+
   }, [])
   return (
+
     <Container>
       {activePopupRender && <Popup message={message} />}
       <HeaderContainer>
         <div>
-          <h3>Transformador</h3>
-          <p>Os
-            transformadores desempenham o papel de modificar os níveis de tensão, essenciais para a
-            transmissão eficiente de energia ao longo de longas distâncias e para a adequação dos níveis de
-            tensão para uso seguro e eficiente pelos consumidores</p>
+          <h3>Linha</h3>
+          <p>As linhas representam os condutores que transmitem energia entre as barras, essenciais para o fluxo de energia ao longo da rede.</p>
         </div>
         <ButtonHeader onClick={() => handleAction('ADD')}>Adicionar</ButtonHeader>
       </HeaderContainer>
-      {transformador.length > 0 ? <table>
+      {linha.length > 0 ? <ContainerDiv><Table>
         <thead>
           <tr>
             <th>Código</th>
@@ -248,7 +255,7 @@ export function Transformador() {
           </tr>
         </thead>
         <tbody>
-          {transformador.map((response, index) =>
+          {linha.map((response, index) =>
             <tr key={response.id}>
               <td>{response.id}</td>
               <td>{response.barraDe}</td>
@@ -262,7 +269,7 @@ export function Transformador() {
             </tr>
           )}
         </tbody>
-      </table> : <Info>Nenhum transformador cadastrado.</Info>}
+      </Table></ContainerDiv> : <Info>Nenhuma linha cadastrado.</Info>}
 
       <FormContainer actives={active.toString()}>
         <Form onSubmit={Action[actionMethod].function}>
@@ -270,7 +277,7 @@ export function Transformador() {
             <X />
           </button>
           <h2>{Action[actionMethod].title}</h2>
-          <input type="text" disabled={actionMethod === 'EDIT'} placeholder="Digite o código do transformador" value={valueIdTransformador} onChange={(event) => handleBarra(event, setValueIdTransformador)} />
+          <input type="text" disabled={actionMethod === 'EDIT'} placeholder="Digite o código da linha" value={valueIdTransformador} onChange={(event) => handleBarra(event, setValueIdTransformador)} />
           <input type="text" list="data-list-barras" value={barraDe} placeholder="Digite o código da barrade" onChange={(event) => handleBarra(event, setBarraDe)} />
           <datalist ref={dalistBarra} id="data-list-barras">
             {storeBarra.map(resp => <option value={resp.id}></option>)}

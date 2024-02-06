@@ -1,13 +1,13 @@
-import React, { ChangeEvent, FormEvent, KeyboardEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { BarraDTOs } from "../../DTOS/barra";
 import { useAppDispatch, useAppSelector } from "../../store";
-import { add, edit, fetchBarras, remove } from "../../store/slices/barra";
+import { add, fetchBarras, remove } from "../../store/slices/barra";
 import { api } from "../../utils/axios";
-import { FaEdit, FaNewspaper } from "react-icons/fa";
 
-import { ButtonAction, ButtonSend, Container, Form, FormContainer, HeaderBarra, Table, X } from "./style";
+import { ButtonAction, ButtonSend, X } from "./style";
 import { IoMdTrash } from "react-icons/io";
-import { ButtonHeader, HeaderContainer, Info } from "../StyledComponents/style";
+import { ButtonHeader, Form, FormContainer, HeaderContainer, Info, Container, Table, ContainerDiv } from "../StyledComponents/style";
+import { Popup } from "../popup";
 
 
 
@@ -16,16 +16,26 @@ export function Barra(){
   const [active, setActive] = useState(false)
   const [actionMethod, setActionMethod] = useState<'ADD'>('ADD')
   const [valueBarra, setValueBarra] = useState('')
-  const [inputAntigo, setInputAntigo] = useState('')
+  const [message, setMessage] = useState('')
+  const [activePopupRender, setActivePopupRender] = useState(false)
   const Action = {
     ADD:{
       title: 'Adicionar barra',
       function: (event: FormEvent) => addBarra(event) 
     }
   }
-  const store = useAppSelector(store => {
+  const { barra, gerador, transformador, linha } = useAppSelector(store => {
+    const transformador = store.transformador.transformadores
+    const gerador = store.gerador.geradores
+    const barra = store.barra.barras
+    const linha = store.linha.linhas
+    return {
+      transformador,
+      gerador,
+      barra,
+      linha
+    }
 
-    return store.barra.barras
   })
 
   const dispatch = useAppDispatch()
@@ -38,10 +48,13 @@ export function Barra(){
   }
   async function addBarra(event: FormEvent) {
     event.preventDefault()
-    const verify = store.some(resp => resp.id === valueBarra)
-
+    const verify = barra.some(resp => resp.id === valueBarra)
+    if(valueBarra.length === 0){
+      handleActivePopup('O valor não pode ser nulo')
+      return
+    }
     if(verify){
-      console.log('CÓGIGO DE GERADOR JÁ EXISTE')
+      handleActivePopup('CÓGIGO DE GERADOR JÁ EXISTE')
       return
     }
     const response = await api.post<BarraDTOs>(`http://localhost:3001/barra`, {
@@ -57,15 +70,23 @@ export function Barra(){
     setValueBarra('')
     
   }
-  console.log(store)
+  console.log(barra)
   function handleAction(action:'ADD', id?: string, indexx?: string){
     setActive(!active)
     setActionMethod(action)
+  }
+  function handleActivePopup(message: string){
+    setMessage(message)
+    setActivePopupRender(true)
+    setInterval(() => {
+      setActivePopupRender(false)
+    }, 10000)
   }
   useEffect(() => {
     dispatch(fetchBarras())
   }, [])
 
+  
   function handleBarra(event: ChangeEvent<HTMLInputElement>) {
     const inputValue = event.target.value;
 
@@ -77,7 +98,7 @@ export function Barra(){
   }
   return(
     <Container>
-   
+    {activePopupRender && <Popup message={message}/>}
       <HeaderContainer>
         <div>
           <h3>Barra</h3>
@@ -86,7 +107,7 @@ export function Barra(){
         <ButtonHeader onClick={() => handleAction('ADD')}>Adicionar</ButtonHeader>
       </HeaderContainer>
     {
-      store.length > 0 ? <Table>
+      barra.length > 0 ? <ContainerDiv><Table>
       <thead>
         <tr>
           <th>Código</th>
@@ -94,7 +115,7 @@ export function Barra(){
         </tr>
       </thead>
       <tbody>
-        {store.map((response, index) => 
+        {barra.map((response, index) => 
           <tr key={response.id}>
             <td>{response.id}</td>
             <td><div>
@@ -106,7 +127,7 @@ export function Barra(){
           </tr>
         )}
       </tbody>
-    </Table>
+    </Table></ContainerDiv>
     : <Info>Nenhuma barra cadastrada.</Info>
     }
     <FormContainer actives={active.toString()}>

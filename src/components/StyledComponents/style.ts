@@ -46,11 +46,15 @@ export const Form = styled.form`
   padding: 2rem;
   background-color: beige;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
   input {
     outline: none;
+    border: 1px solid rgb(0,0,0,0.4);
     padding: 0.5rem;
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 1rem;
+    border-radius: 4px;
     &:focus{
       box-shadow: 0px 0px 2px 0px black;
     }
@@ -91,6 +95,8 @@ export const HeaderContainer = styled.div`
 `
 export const Info = styled.p`
   font-weight: bold;
+  margin-top: 1rem;
+  z-index: 999999;
 `
 export const ButtonHeader = styled.button`
   padding: 4px 8px;
@@ -100,4 +106,52 @@ export const ButtonHeader = styled.button`
   border-radius: 4px;
   cursor: pointer;
   font-size: 1.1rem;
+`
+
+export const Send = styled.button`
+
+ margin: 0 auto;
+  margin-top: 1rem;
+  background-color: green;
+  border: none;
+  border-radius: 2px;
+  padding: 0.5rem 1rem;
+  color: white;
+`
+export const ContainerDiv = styled.div`
+  max-width: 700px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 auto;
+`
+export const Table = styled.table`
+  border-collapse: collapse;
+ 
+  border-spacing: 0;
+  max-width: 400px;
+  width: 100%;
+  margin: 0 auto;
+
+
+  th, td {
+  text-align: left;
+  padding: 8px;
+
+  }
+`
+
+export const Container = styled.main`
+  width: 100%;
+  padding: 0.5rem;
+`
+
+export const ContainerAction = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
 `

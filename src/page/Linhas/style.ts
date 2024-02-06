@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
+import styled, { WebTarget } from "styled-components";
 
 export const Container = styled.main`
   display: grid;
@@ -19,22 +19,6 @@ export const Container = styled.main`
   gap: 0.5rem;
 
   margin-top: 2rem;
-
-  @media (max-width: 768px){
-
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-  "barra"
-  "gerador"
-  "transformador"
-  "linha"
-  "dashboard"
-  ;
-    margin: 0 auto;
-    
-  justify-content: center;
-  align-items: center;
-  }
 
 `
 interface ButtonProps{

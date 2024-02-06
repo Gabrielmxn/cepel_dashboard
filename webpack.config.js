@@ -1,4 +1,3 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
 const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
 
 const path = require('path');
@@ -29,14 +28,10 @@ const config = {
         {
             "transform": "typescript-plugin-styled-components",
             "type": "config",
-  
-            // other typescript-plugin-styled-components options can be added here
             "minify": true,
             "ssr": true
         }
 
-        // Add your plugins here
-        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     ],
     module: {
         rules: [
@@ -60,12 +55,11 @@ const config = {
                 }
             }
 
-            // Add your rules for custom modules here
-            // Learn more about loaders from https://webpack.js.org/loaders/
+         
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.jsx', '.js', '.css'],
+        extensions: ['.tsx', '.ts', '.jsx', '.js'],
     },
 };
 

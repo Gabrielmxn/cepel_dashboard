@@ -1,3 +1,4 @@
+import { linha } from './slices/linha';
 import { transformador } from './slices/transformador';
 import { configureStore } from "@reduxjs/toolkit"
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux"
@@ -11,7 +12,8 @@ export const store = configureStore({
   reducer: {
     barra,
     gerador,
-    transformador
+    transformador,
+    linha
   },
 })
 

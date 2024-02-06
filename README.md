@@ -1,15 +1,19 @@
-# 🚀 Welcome to your new awesome project!
-
-This project has been created using **webpack-cli**, you can now run
+Para rodar o projeto, primeiro rode
 
 ```
-npm run build
+npm i
+```
+Depois rode 
+
+```
+npm run api:fake
 ```
 
-or
+E, por fim, abre outra aba do terminal e rode
 
 ```
-yarn build
+npm run start
 ```
 
-to bundle your application
+Foi feito um design simples, apenas para visualizar as informações, editar e excluir. Nada muito complexo. O usuário tem 
+facilidade para utilizaar o site.
